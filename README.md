@@ -3,10 +3,7 @@ This is a personal project where I will be implementing a ray tracer from scratc
 Current features list:
 
 1. MSAA
-
-Future features list:
-
-1. Diffuse Materials
-2. Metal
-3. Glass
-4. ...
+2. Diffuse material
+3. Metal material
+4. Glass material
+5. Positionable camera

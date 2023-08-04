@@ -127,20 +127,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="hittableList.cpp" />
+    <ClCompile Include="Camera\camera.cpp" />
+    <ClCompile Include="Geometry\sphere.cpp" />
+    <ClCompile Include="Hittables\hittableList.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="sphere.cpp" />
+    <ClCompile Include="Materials\diffuse.cpp" />
+    <ClCompile Include="Materials\glass.cpp" />
+    <ClCompile Include="Materials\metal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="color.h" />
-    <ClInclude Include="hittable.h" />
-    <ClInclude Include="hittableList.h" />
-    <ClInclude Include="ray.h" />
-    <ClInclude Include="sphere.h" />
-    <ClInclude Include="utilities.h" />
-    <ClInclude Include="vec3.h" />
+    <ClInclude Include="Camera\camera.h" />
+    <ClInclude Include="Geometry\sphere.h" />
+    <ClInclude Include="Hittables\hittable.h" />
+    <ClInclude Include="Hittables\hittableList.h" />
+    <ClInclude Include="Materials\diffuse.h" />
+    <ClInclude Include="Materials\glass.h" />
+    <ClInclude Include="Materials\material.h" />
+    <ClInclude Include="Materials\metal.h" />
+    <ClInclude Include="Math\color.h" />
+    <ClInclude Include="Math\ray.h" />
+    <ClInclude Include="Math\utilities.h" />
+    <ClInclude Include="Math\vector3.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image.ppm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

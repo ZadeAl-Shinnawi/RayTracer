@@ -1,8 +1,5 @@
-/*
- *	This derived class contains information on a list of hittable primitives.
- */
-
 #include "hittableList.h"
+#include "../Math/ray.h"
 
 HittableList::HittableList() {}
 
@@ -11,7 +8,8 @@ HittableList::HittableList(std::shared_ptr<Hittable> object)
     add(object);
 }
 
-bool HittableList::hit(const Ray& r, float tMin, float tMax, HitRecord& rec) const
+bool HittableList::hit(const Ray& r, const float tMin,
+                       const float tMax, HitRecord& rec) const
 {
     HitRecord tempRec;
     bool wasHit = false;

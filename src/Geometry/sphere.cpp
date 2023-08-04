@@ -1,25 +1,24 @@
-/*
- *	This derived class contains information on the hittable, Sphere
- *  primitive which is defined by a center and a radius.
- */
-
+#include <memory>
 #include "sphere.h"
-#include "vec3.h"
-#include "ray.h"
-#include "hittable.h"
+#include "../Math/vector3.h"
+#include "../Math/ray.h"
+#include "../Hittables/hittable.h"
+#include "../Materials/material.h"
 
 Sphere::Sphere() : center{0.0f, 0.0f, 0.0f}, radius(1.0f) {}
 
-Sphere::Sphere(Point3 cen, float r) : center(cen), radius(r) {}
+Sphere::Sphere(Point3 center, float radius, std::shared_ptr<Material> matPtr) :
+               center(center), radius(radius), matPtr(matPtr) {}
 
-bool Sphere::hit(const Ray& r, float tMin, float tMax, HitRecord& rec) const
+bool Sphere::hit(const Ray& r, const float tMin,
+                 const float tMax, HitRecord& rec) const
 {
-    Vec3 oc = r.origin() - center;
+    Vector3 oc = r.origin() - center;
 
     // Calculate a, b, and c values to solve quadratic.
-    float a = r.direction().lengthSquared();
+    float a = r.direction().magnitudeSquared();
     float halfB = dot(oc, r.direction());
-    float c = oc.lengthSquared() - radius * radius;
+    float c = oc.magnitudeSquared() - radius * radius;
 
     // Calculate discriminant.
     float discriminant = halfB * halfB - a * c;
@@ -50,8 +49,11 @@ bool Sphere::hit(const Ray& r, float tMin, float tMax, HitRecord& rec) const
     rec.p = r.at(rec.t);
 
     // Negate normal, if necessary.
-    Vec3 outwardNormal = (rec.p - center) / radius;
+    Vector3 outwardNormal = (rec.p - center) / radius;
     rec.setFaceNormal(r, outwardNormal);
+
+    // Set sphere material pointer.
+    rec.matPtr = matPtr;
 
     return true;
 }

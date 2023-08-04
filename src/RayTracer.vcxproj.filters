@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{d133bbb3-7fe4-4c42-bcf0-87778a05bf47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{32727d53-6ad5-4bb2-980b-db19f327d5e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{637739fa-77ab-4243-9969-e3c1d7b863bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hittables">
+      <UniqueIdentifier>{082d5aaa-30f8-46de-b013-0f0e9175acd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{9f2fd51b-407b-41a0-aeaf-11c622cebdb8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Hittables\hittableList.cpp">
+      <Filter>Hittables</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry\sphere.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\diffuse.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\glass.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\metal.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera\camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\color.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\ray.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\utilities.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Hittables\hittable.h">
+      <Filter>Hittables</Filter>
+    </ClInclude>
+    <ClInclude Include="Hittables\hittableList.h">
+      <Filter>Hittables</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\sphere.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Materials\diffuse.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Materials\glass.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Materials\material.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Materials\metal.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image.ppm">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

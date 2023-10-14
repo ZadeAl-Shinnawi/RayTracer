@@ -15,7 +15,6 @@ public:
     virtual bool scatter(const Ray& inputRay, const HitRecord& rec,
                          Color& attenuation, Ray& scattered) const override;
 
-public:
     Color albedo;
     float fuzz;
 };

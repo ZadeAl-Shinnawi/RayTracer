@@ -29,6 +29,5 @@ public:
     virtual bool hit(const Ray& r, const float tMin,
                      const float tMax, HitRecord& rec) const override;
 
-public:
     std::vector<std::shared_ptr<Hittable>> objects;
 };

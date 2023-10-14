@@ -13,16 +13,16 @@ public:
     Sphere();
 
     // Initialization constructor.
-    Sphere(Point3 cen, float r, std::shared_ptr<Material> mat);
+    Sphere(Point3 center, float radius, std::shared_ptr<Material> matPtr);
 
     // Checks whether or not the sphere was hit.
     virtual bool hit(const Ray& r, const float tMin,
                      const float tMax, HitRecord& rec) const override;
 
 public:
-    Point3 center;
+    Point3 m_center;
 
-    float radius;
+    float m_radius;
 
-    std::shared_ptr<Material> matPtr;
+    std::shared_ptr<Material> m_matPtr;
 };

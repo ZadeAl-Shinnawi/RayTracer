@@ -5,20 +5,20 @@
 #include "../Hittables/hittable.h"
 #include "../Materials/material.h"
 
-Sphere::Sphere() : center{0.0f, 0.0f, 0.0f}, radius(1.0f) {}
+Sphere::Sphere() : m_center{0.0f, 0.0f, 0.0f}, m_radius(1.0f) {}
 
 Sphere::Sphere(Point3 center, float radius, std::shared_ptr<Material> matPtr) :
-               center(center), radius(radius), matPtr(matPtr) {}
+               m_center(center), m_radius(radius), m_matPtr(matPtr) {}
 
 bool Sphere::hit(const Ray& r, const float tMin,
                  const float tMax, HitRecord& rec) const
 {
-    Vector3 oc = r.origin() - center;
+    Vector3 oc = r.origin() - m_center;
 
     // Calculate a, b, and c values to solve quadratic.
     float a = r.direction().magnitudeSquared();
     float halfB = dot(oc, r.direction());
-    float c = oc.magnitudeSquared() - radius * radius;
+    float c = oc.magnitudeSquared() - m_radius * m_radius;
 
     // Calculate discriminant.
     float discriminant = halfB * halfB - a * c;
@@ -49,11 +49,11 @@ bool Sphere::hit(const Ray& r, const float tMin,
     rec.p = r.at(rec.t);
 
     // Negate normal, if necessary.
-    Vector3 outwardNormal = (rec.p - center) / radius;
+    Vector3 outwardNormal = (rec.p - m_center) / m_radius;
     rec.setFaceNormal(r, outwardNormal);
 
     // Set sphere material pointer.
-    rec.matPtr = matPtr;
+    rec.matPtr = m_matPtr;
 
     return true;
 }

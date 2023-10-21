@@ -85,6 +85,9 @@
     <ClInclude Include="Materials\metal.h">
       <Filter>Materials</Filter>
     </ClInclude>
+    <ClInclude Include="Math\interval.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="image.ppm">

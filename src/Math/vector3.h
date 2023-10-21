@@ -1,8 +1,14 @@
+/*
+ * This class provides the concept of a mathematical vector and is utilized
+ * extensively throughout the entirety of the codebase for various uses.
+ */
+
 #pragma once
 
 #include <cmath>
 #include <ostream>
 #include <array>
+
 #include "utilities.h"
 
 struct Vector3

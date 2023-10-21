@@ -38,8 +38,8 @@ HittableList randomScene()
 					// Diffuse
 					Vector3 albedo = Color::random() * Color::random();
 					sphereMaterial = std::make_shared<Diffuse>(albedo);
-					world.add(std::make_shared<Sphere>
-							 (center, 0.2f, sphereMaterial));
+					auto center2 = center + Vector3(0, randomFloat(0, .5), 0);
+					world.add(std::make_shared<Sphere>(center, center2, 0.2, sphereMaterial));
 				}
 				else if (chooseMat < 0.95f)
 				{
@@ -79,73 +79,21 @@ HittableList randomScene()
 int main()
 {
 	// Image
-	const float ASPECT_RATIO = 3.0f / 2.0f;
+	const float ASPECT_RATIO = 16.0f / 9.0f;
 	const int IMAGE_WIDTH = 1200;
 	const int IMAGE_HEIGHT = static_cast<int>(IMAGE_WIDTH / ASPECT_RATIO);
 	const int SAMPLES_PER_PIXEL = 500;
 	const int MAX_DEPTH = 50;
 	bool msaa = true;
 
-	// Used for MSAA.
-	Vector3 horizontal = Vector3(3.556f, 0.0f, 0.0f);
-	Vector3 vertical = Vector3(0.0f, 2.0f, 0.0f);
-	Vector3 lowerLeftCorner = Point3(0.0f, 0.0f, 0.0f) - (horizontal / 2.0f) - 
-						   (vertical / 2.0f) - Vector3(0.0f, 0.0f, 1.0f);
-
 	// Create hittable list and add primitives to world.
 	HittableList world = randomScene();
 
-	// Create camera.
-	Point3 lookFrom(13.0f, 2.0f, 3.0f);
-	Point3 lookAt(0.0f, 0.0f, 0.0f);
-	Vector3 vUp(0.0f, 1.0f, 0.0f);
+	Camera camera(IMAGE_WIDTH, IMAGE_HEIGHT, SAMPLES_PER_PIXEL, MAX_DEPTH, ASPECT_RATIO, 20.0f, .02f, 10.0f,
+				  Point3(13.0f, 2.0f, 3.0f), Point3(0.0f, 0.0f, 0.0f),
+				  Vector3(0.0f, 1.0f, 0.0f));
 
-	float distToFocus = 10.0f;
-	float aperture = 0.1f;
-
-	Camera cam(lookFrom, lookAt, vUp, ASPECT_RATIO,
-			   90.0f, aperture, distToFocus);
-
-	// Output necessary information to PPM file.
-	std::cout << "P3\n" << IMAGE_WIDTH << ' ' << IMAGE_HEIGHT << "\n255\n";
-
-	// Iterate through all pixels.
-	for (int j = IMAGE_HEIGHT - 1; j >= 0; --j)
-	{
-		// Output pixel progress
-		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-
-		for (int i = 0; i < IMAGE_WIDTH; ++i)
-		{
-			// Check if MSAA is enabled.
-			if (!msaa)
-			{
-				float u = static_cast<float>(i) / (IMAGE_WIDTH - 1);
-				float v = static_cast<float>(j) / (IMAGE_HEIGHT - 1);
-				Ray r(Point3(0.0f, 0.0f, 0.0f), lowerLeftCorner +
-					 (u * horizontal) +
-					 (v * vertical));
-				Color pixelColor = rayColor(r, world, MAX_DEPTH);
-				writeColor(std::cout, pixelColor, 0, false);
-				continue;
-			}
-
-			Color pixelColor;
-			for (int samples = 0; samples < SAMPLES_PER_PIXEL; ++samples)
-			{
-				// Sample random points within pixel.
-				float u = (i + randomFloat()) / (IMAGE_WIDTH - 1);
-				float v = (j + randomFloat()) / (IMAGE_HEIGHT - 1);
-				Ray r = cam.getRay(u, v);
-				pixelColor += rayColor(r, world, MAX_DEPTH);
-			}
-
-			// Record current pixel color in PPM file.
-			writeColor(std::cout, pixelColor, SAMPLES_PER_PIXEL, true);
-		}
-	}
-
-	std::cerr << "\nDone.\n";
+	camera.render(world);
 
 	return 0;
 }

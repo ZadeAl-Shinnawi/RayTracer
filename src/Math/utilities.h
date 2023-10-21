@@ -1,3 +1,8 @@
+/*
+ * This class provides various useful utility values and functions used
+ * throughout the entire codebase.
+ */
+
 #pragma once
 
 #include <limits>

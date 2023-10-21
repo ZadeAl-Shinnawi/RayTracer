@@ -1,9 +1,11 @@
 #include "diffuse.h"
+
+#include "../Hittables/hittable.h"
 #include "../Math/vector3.h"
 #include "../Math/ray.h"
-#include "../Hittables/hittable.h"
+#include "../Math/color.h"
 
-Diffuse::Diffuse(const Color& a) : albedo(a) {}
+Diffuse::Diffuse(const Color& albedo) : m_albedo(albedo) {}
 
 bool Diffuse::scatter(const Ray& inputRay, const HitRecord& rec,
                       Color& attenuation, Ray& scattered) const
@@ -17,8 +19,8 @@ bool Diffuse::scatter(const Ray& inputRay, const HitRecord& rec,
         scatterDirection = rec.normal;
     }
 
-    scattered = Ray(rec.p, scatterDirection);
-    attenuation = albedo;
+    scattered = Ray(rec.p, scatterDirection, inputRay.time());
+    attenuation = m_albedo;
 
     return true;
 }

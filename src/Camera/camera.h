@@ -1,75 +1,92 @@
+/*
+ * This class provides the necessary functionality to set up a virtual camera,
+ * cast rays for rendering, and capture scenes.
+ */
+
 #pragma once
 
 #include "../Math/vector3.h"
-#include "../Math/ray.h"
+#include "../Hittables/hittable.h"
 
 class Camera
 {
 public:
     // Initialization constructor.
-    Camera(Point3 lookFrom, Point3 lookAt, Vector3 viewUp,
-           float aspectRatio, float verticalFOV, float aperture,
-           float focusDistance);
+    Camera(int imageWidth, int imageHeight, int samplesPerPixel, int maxDepth,
+           float aspectRatio, float verticalFOV, float defocusAngle,
+           float focusDistance, Point3 lookFrom, Point3 lookAt,
+           Vector3 upVector);
 
-    // Returns the ray located at the specified screen coordinate values.
-    Ray getRay(float s, float t) const;
+    // Outputs all of the image's RGB values for each pixel to std::cout
+    // (a PPM file) and continuously displays the number of lines left to
+    // render in the console.
+    void render(const Hittable& world) const;
 
 private:
-    // In degrees.
-    // Increasing this gives a wider camera angle view as if you are zoomed out
-    // or viewing the scene from further back
-    float m_verticalFOV;
+    // Rendered image width in pixels.
+    int m_imageWidth;
 
-    // Viewport width : length ratio.
+    // Rendered image height in pixels.
+    int m_imageHeight;
+
+    // Number of rays to cast per pixel.
+    int m_samplesPerPixel;
+
+    // Maximum number of bounces per Ray into the scene.
+    int m_maxDepth;
+
+    // Ratio = Image width : Image height.
     float m_aspectRatio;
 
-    // Vertical FOV in degrees.
+    // Vertical field of view angle.
+    float m_verticalFOV;
+
+    //  Ray angle variation through each pixel (used for motion blur).
+    float m_defocusAngle;
+
+    // Distance from the lookFrom vector to the plane of perfect focus.
+    float m_focusDistance;
+
+    // Used to determine viewport dimensions.
     float m_theta;
-
-    // Half of the FOV height.
-    float m_fovHeight;
-
+    float m_h;
     float m_viewportHeight;
-
     float m_viewportWidth;
 
-    // Camera lens light array amount.
-    // Increasing this "widens" the lens and results
-    // in blurrier background objects.
-    float m_aperture;
+    // Relative origin pixel.
+    Point3 m_originPixel;
 
-    // Everything within this distance will be perfectly in focus.
-    float m_focusDist;
-
-    float m_lensRadius;
-
-    // Camera origin.
+    // The point that the camera looks from.
     Point3 m_lookFrom;
 
-    // Camera direction.
+    // The point that the camera looks at.
     Point3 m_lookAt;
-    
-    // Camera up direction vector (0, 1, 0).
-    Vector3 m_viewUp;
 
-    // Camera z direction vector.
-    Vector3 m_w;
+    // Offset to the pixel to the right of the given pixel.
+    Vector3 m_pixelDeltaU;
 
-    // Camera x direction vector.
+    // Offset to the pixel below the given pixel.
+    Vector3 m_pixelDeltaV;
+
+    // Camera frame basis vectors.
     Vector3 m_u;
-    
-    // Camera v direction vector.
     Vector3 m_v;
+    Vector3 m_w;
+    
+    // Relative up direction of the camera.
+    Vector3 m_upVector;
 
-    // Camera origin.
-    Point3 m_origin;
+    // Generates a random point in the square [-0.5, 1.0) surrounding a pixel
+    // at the origin.
+    Vector3 pixelSampleSquare() const;
 
-    // Horizontal window vector.
-    Vector3 m_horizontal;
+    // Generates a random point within the camera defocus disk.
+    Point3 defocusDiskSample() const;
 
-    // Vertical window vector.
-    Vector3 m_vertical;
+    // Generates a random point in the disk of the specified radius around a
+    // pixel at the origin.
+    Vector3 pixelSampleDisk(float radius) const;
 
-    // Lower, left corner of viewing plane.
-    Point3 m_lowerLeftCorner;
+    // Retrieves the ray at the specified (i, j) position.
+    Ray getRay(int i, int j) const;
 };

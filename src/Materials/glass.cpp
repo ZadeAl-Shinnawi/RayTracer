@@ -1,10 +1,13 @@
 #include "glass.h"
-#include "../Math/vector3.h"
-#include "../Math/ray.h"
-#include "../Hittables/hittable.h"
+
 #include <cmath>
 
-Glass::Glass(float refractionIndex) : ir(refractionIndex) {}
+#include "../Hittables/hittable.h"
+#include "../Math/vector3.h"
+#include "../Math/ray.h"
+#include "../Math/color.h"
+
+Glass::Glass(float refractionIndex) : m_ir(refractionIndex) {}
 
 bool Glass::scatter(const Ray& inputRay, const HitRecord& rec,
                     Color& attenuation, Ray& scattered) const
@@ -12,7 +15,7 @@ bool Glass::scatter(const Ray& inputRay, const HitRecord& rec,
     attenuation = Color(1.0f, 1.0f, 1.0f);
 
     // Calculate refraction ratio.
-    float refractionRatio = rec.frontFace ? (1.0f / ir) : ir;
+    float refractionRatio = rec.frontFace ? (1.0f / m_ir) : m_ir;
 
     Vector3 unitDirection = unitVector(inputRay.direction());
 
@@ -22,7 +25,8 @@ bool Glass::scatter(const Ray& inputRay, const HitRecord& rec,
     bool cannotRefract = refractionRatio * sinTheta > 1.0f;
     Vector3 direction;
 
-    if (cannotRefract || reflectance(cosTheta, refractionRatio) > randomFloat())
+    if (cannotRefract ||
+        reflectance(cosTheta, refractionRatio) > randomFloat())
     {
         direction = reflect(unitDirection, rec.normal);
     }
@@ -31,7 +35,7 @@ bool Glass::scatter(const Ray& inputRay, const HitRecord& rec,
         direction = refract(unitDirection, rec.normal, refractionRatio);
     }
 
-    scattered = Ray(rec.p, direction);
+    scattered = Ray(rec.p, direction, inputRay.time());
 
     return true;
 }

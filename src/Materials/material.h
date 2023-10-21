@@ -1,8 +1,13 @@
+/*
+ * This is an abstract class that represents a generic material.
+ */
+
 #pragma once
 
 #include "../Math/vector3.h"
 #include "../Math/ray.h"
 
+// Forward declaration.
 struct HitRecord;
 
 class Material

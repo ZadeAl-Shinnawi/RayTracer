@@ -1,15 +1,20 @@
+/*
+ * This class provides the necessary functionality to manipulate and output
+ * colors.
+ */
+
 #pragma once
 
 #include <ostream>
-#include <cmath>
+
 #include "vector3.h"
 #include "ray.h"
-#include "../Hittables/hittable.h"
 #include "utilities.h"
 #include "../Materials/material.h"
+#include "../Hittables/hittable.h"
 
 // Writes RGB triplets to standard output in PPM format.
-void writeColor(std::ostream& out, const Color& pixelColor,
+void inline writeColor(std::ostream& out, const Color& pixelColor,
                 const int samplesPerPixel, const bool msaa)
 {
     // Multisample anti-aliasing disabled.
@@ -41,36 +46,29 @@ void writeColor(std::ostream& out, const Color& pixelColor,
 }
 
 // Calculates the pixel color for the given ray.
-Color rayColor(const Ray& r, const Hittable& world, const int depth)
+Color inline rayColor(const Ray& r, int depth, const Hittable& world)
 {
+    // If we've exceeded the Ray bounce limit, no more light is gathered.
+    if (depth <= 0)
+        return Color(0.0f, 0.0f, 0.0f);
+
     HitRecord rec;
 
-    // If the ray bounce limit has been exceeded, no more light is gathered.
-    if (depth <= 0)
+    if (world.hit(r, Interval(0.001f, INF), rec))
     {
-        return Color(0.0f, 0.0f, 0.0f);
-    }
-
-    if (world.hit(r, 0.001f, INF, rec))
-    {
-        // Direction of light ray scattering/reflection.
         Ray scattered;
-
-        // Light ray loss due to scattering and absorption.
         Color attenuation;
 
         if (rec.matPtr->scatter(r, rec, attenuation, scattered))
         {
-            // Calculate less intense ray color recursively.
-            return attenuation * rayColor(scattered, world, depth - 1);
+            return attenuation * rayColor(scattered, depth - 1, world);
         }
 
         return Color(0.0f, 0.0f, 0.0f);
     }
 
     Vector3 unitDirection = unitVector(r.direction());
-    float t = 0.5f * (unitDirection.y() + 1.0f);
+    float a = 0.5f * (unitDirection.y() + 1.0f);
 
-    // Linear interpolation: (1 - t) * bottomColor + t * topColor.
-    return (1.0f - t) * Color(1.0f, 1.0f, 1.0f) + t * Color(0.5f, 0.7f, 1.0f);
+    return (1.0f - a) * Color(1.0f, 1.0f, 1.0f) + a * Color(0.5f, 0.7f, 1.0f);
 }

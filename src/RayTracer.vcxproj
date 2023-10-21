@@ -145,6 +145,7 @@
     <ClInclude Include="Materials\material.h" />
     <ClInclude Include="Materials\metal.h" />
     <ClInclude Include="Math\color.h" />
+    <ClInclude Include="Math\interval.h" />
     <ClInclude Include="Math\ray.h" />
     <ClInclude Include="Math\utilities.h" />
     <ClInclude Include="Math\vector3.h" />

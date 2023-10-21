@@ -10,3 +10,5 @@ Current features list:
 3. Metal material
 4. Glass material
 5. Positionable camera
+6. Motion Blur
+![motion_blur](https://github.com/ZadeAl-Shinnawi/RayTracer/assets/121062531/2a9dc020-c783-41bf-afd7-0478982f3f7c)
